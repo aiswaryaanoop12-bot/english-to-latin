@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pig Latin Converter</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+    }
+    h1 {
+        margin-bottom: 15px;
+        font-size: 22px;
+        color: #333;
+    }
+    input, button {
+        padding: 10px;
+        font-size: 16px;
+        margin-top: 10px;
+        width: 90%;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        border: none;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    .result {
+        margin-top: 15px;
+        font-weight: bold;
+        color: #222;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Pig Latin Converter</h1>
+    <input type="text" id="wordInput" placeholder="Enter a word or phrase">
+    <button onclick="convertToPigLatin()">Convert</button>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function pigLatinWord(word) {
+    if (!word) return "";
+    const vowels = ['a', 'e', 'i', 'o', 'u'];
+    let lowerWord = word.toLowerCase();
+
+    // If word starts with a vowel
+    if (vowels.includes(lowerWord[0])) {
+        return word + "way";
+    } else {
+        // Find first vowel position
+        let firstVowelIndex = lowerWord.length;
+        for (let i = 0; i < lowerWord.length; i++) {
+            if (vowels.includes(lowerWord[i])) {
+                firstVowelIndex = i;
+                break;
+            }
+        }
+        return lowerWord.slice(firstVowelIndex) + lowerWord.slice(0, firstVowelIndex) + "ay";
+    }
+}
+
+function convertToPigLatin() {
+    let input = document.getElementById("wordInput").value.trim();
+    if (input === "") {
+        document.getElementById("result").textContent = "Please enter a word!";
+        return;
+    }
+
+    // Handle multiple words
+    let words = input.split(" ");
+    let converted = words.map(word => pigLatinWord(word)).join(" ");
+    document.getElementById("result").textContent = converted;
+}
+</script>
+
+</body>
+</html>
